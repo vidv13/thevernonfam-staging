@@ -1,0 +1,338 @@
+/* ==========================================================================
+   The house — front page
+   ========================================================================== */
+
+.home {
+  --vh: 100vh;
+
+  /* The painting is 3:2. It fills the screen, but never zooms in so far
+     that the nine windows run off the sides (phones), and never crops so
+     hard that the house loses its roof or lawn (ultra-wide monitors). */
+  --W: min(max(100vw, calc(var(--vh) * 1.5)), 236vw, calc(var(--vh) * 2.05));
+  --H: calc(var(--W) / 1.5);
+  --top: max(calc(var(--vh) - var(--H)), min(0px, calc(var(--vh) * 0.5 - var(--H) * 0.42)));
+
+  position: relative;
+  height: var(--vh);
+  overflow: hidden;
+  background: var(--sky);
+  transition: background-color 1.4s ease;
+}
+
+@supports (height: 100dvh) {
+  .home { --vh: 100dvh; }
+}
+
+.stage {
+  position: absolute;
+  top: var(--top);
+  /* keep the front door in the middle of the screen */
+  left: clamp(calc(100vw - var(--W)), calc(50vw - var(--W) * 0.486), 0px);
+  width: var(--W);
+  height: var(--H);
+  container-type: size;
+}
+
+/* ---- the painting ------------------------------------------------------- */
+
+.scene,
+.scene .art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.scene .art {
+  display: block;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.4s ease;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.scene .art.is-on {
+  opacity: 1;
+}
+
+/* ---- the wordmark ------------------------------------------------------- */
+
+.wordmark {
+  position: absolute;
+  margin: 0;
+  left: 50.6%;
+  /* halfway between the top of the screen and the roofline */
+  top: calc((var(--H) * 0.30 - var(--top)) / 2);
+  width: 29%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.wordmark img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---- the windows -------------------------------------------------------- */
+
+.facade {
+  position: absolute;
+  left: 26.5%;
+  top: 46.5%;
+  width: 41%;
+  height: 25.5%;
+}
+
+.windows {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.window {
+  position: absolute;
+  left: calc(var(--x) - var(--w) / 2);
+  top: var(--y);
+  width: var(--w);
+  height: var(--h);
+  pointer-events: auto;
+  color: var(--cream);
+  text-decoration: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* a generous target: the glass, its shutters, and the nameplate below */
+.window::after {
+  content: "";
+  position: absolute;
+  inset: -12% -78% -42%;
+}
+
+/* lamplight: brightens the glass and spills a little onto the brick */
+.window::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 62%, rgba(255, 240, 200, 0.62) 0%, rgba(255, 205, 120, 0.5) 60%, rgba(245, 170, 80, 0.4) 100%);
+  box-shadow:
+    0 0 0.9cqw 0.3cqw rgba(255, 214, 140, 0.75),
+    0 0 3.4cqw 1.1cqw rgba(255, 196, 110, 0.4);
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+
+.name {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 0.75em);
+  transform: translate(-50%, 0.25em);
+  padding: 0.34em 0.62em 0.26em 0.84em; /* extra on the left balances the tracking */
+  background: var(--ink);
+  font-size: clamp(9.5px, 0.74cqw, 15px);
+  line-height: 1;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.28s ease, transform 0.28s ease, color 0.28s ease;
+}
+
+/* Come near the house and the nameplates appear, quietly… */
+.facade:hover ~ .windows .name,
+.windows:hover .name,
+.windows:focus-within .name {
+  opacity: 0.78;
+  transform: translate(-50%, 0);
+}
+
+/* …and the window you're at lights up. */
+.window:hover::before,
+.window:focus-visible::before,
+.window:active::before {
+  opacity: 1;
+}
+
+.window:hover .name,
+.window:focus-visible .name {
+  opacity: 1;
+  color: var(--lamplight);
+  transform: translate(-50%, 0);
+}
+
+.window:focus-visible::before {
+  outline: 2px solid var(--cream);
+  outline-offset: 3px;
+}
+
+/* No hover to rely on: the nameplates simply stay up. */
+@media (hover: none) {
+  .name {
+    opacity: 0.92;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* When the painting itself is small (phones), set the plates a little tighter
+   so nine of them fit across the front of the house. */
+@container (max-width: 1100px) {
+  .name {
+    padding: 0.36em 0.5em 0.28em 0.6em;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+  }
+}
+
+@container (max-width: 860px) {
+  .name {
+    padding: 0.34em 0.3em 0.26em 0.36em;
+    font-size: 8.5px;
+    letter-spacing: 0.06em;
+  }
+}
+
+/* Roll call: once per visit, each window lights in turn. */
+.is-rollcall .window::before {
+  animation: lamp 1.5s ease both;
+  animation-delay: calc(var(--i) * 0.13s);
+}
+
+.is-rollcall .name {
+  animation: plate 2.6s ease both;
+  animation-delay: calc(var(--i) * 0.13s);
+}
+
+@keyframes lamp {
+  0%, 100% { opacity: 0; }
+  30%, 55% { opacity: 1; }
+}
+
+@keyframes plate {
+  0%   { opacity: 0; transform: translate(-50%, 0.25em); }
+  18%, 78% { opacity: 0.9; transform: translate(-50%, 0); }
+}
+
+/* ---- the margin: a date-stamp and one small door ------------------------ */
+
+.margin {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 max(1.5rem, env(safe-area-inset-right)) max(1.1rem, env(safe-area-inset-bottom)) max(1.5rem, env(safe-area-inset-left));
+  color: var(--cream);
+  text-shadow: 0 1px 10px rgba(20, 30, 10, 0.55);
+  pointer-events: none;
+}
+
+.margin > * {
+  pointer-events: auto;
+}
+
+/* The season switch: the painting's date, written in the corner.
+   Click it and the year turns. */
+.almanac {
+  appearance: none;
+  border: 0;
+  padding: 0.3rem 0.4rem;
+  margin: 0 0 -0.3rem -0.4rem;
+  background: none;
+  color: inherit;
+  text-shadow: inherit;
+  font-family: var(--hand);
+  font-size: clamp(1.7rem, 2.3vw, 2.3rem);
+  line-height: 1;
+  transform: rotate(-4deg);
+  transform-origin: left bottom;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+}
+
+.almanac:hover {
+  opacity: 1;
+}
+
+.side-door {
+  padding: 0.5rem 0;
+  color: inherit;
+  font-size: 0.86rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  text-decoration: none;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+}
+
+.side-door:hover {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 0.35em;
+  text-decoration-thickness: 1px;
+}
+
+.almanac:focus-visible,
+.side-door:focus-visible {
+  outline: 1px solid var(--cream);
+  outline-offset: 4px;
+  opacity: 1;
+}
+
+/* ---- phones held upright ------------------------------------------------
+   The house can't fill the height without losing windows off the sides, so
+   it sits on the bottom of the screen and the sky carries on above it. */
+
+@media (max-aspect-ratio: 636/1000) {
+  .scene {
+    -webkit-mask-image: linear-gradient(to bottom, transparent 1%, #000 19%);
+    mask-image: linear-gradient(to bottom, transparent 1%, #000 19%);
+  }
+
+  .wordmark {
+    width: 31%;
+  }
+}
+
+/* ---- very wide monitors --------------------------------------------------
+   The painting stops growing; a soft out-of-focus copy fills the sides. */
+
+@media (min-aspect-ratio: 205/100) {
+  .home::before {
+    content: "";
+    position: absolute;
+    inset: -8%;
+    background: var(--art) center / cover;
+    filter: blur(40px) brightness(0.82);
+  }
+
+  .stage {
+    left: calc((100vw - var(--W)) / 2);
+  }
+
+  .scene {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent);
+  }
+}
+
+/* ---- calm ---------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .home,
+  .scene .art,
+  .window::before,
+  .name,
+  .almanac,
+  .side-door {
+    transition-duration: 0.01s;
+  }
+
+  .is-rollcall .window::before,
+  .is-rollcall .name {
+    animation: none;
+  }
+}

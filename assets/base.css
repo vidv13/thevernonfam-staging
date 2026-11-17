@@ -1,0 +1,74 @@
+/* ==========================================================================
+   Rocky Hill Farm — shared foundations
+   Used by the house (index.html) and by every room (people/<name>/).
+   ========================================================================== */
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("fonts/cormorant-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ms Madi";
+  src: url("fonts/ms-madi.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --ink: #1d3020;          /* the wordmark's green-black */
+  --paper: #f4eee2;
+  --cream: #f6efdf;
+  --lamplight: #ffd98a;
+  --sky: #afc0d3;          /* overwritten per season by seasons.js */
+  --art: url("img/house-fall.webp"); /* ditto */
+
+  --serif: "Cormorant Garamond", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --hand: "Ms Madi", "Snell Roundhand", "Apple Chancery", cursive;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 500;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --------------------------------------------------------------------------
+   The nine windows.
+   Coordinates are percentages of the house artwork (1536 × 1024), measured
+   to the glass of each window. Every seasonal painting must keep the house
+   in the same place, so these never change with the season.
+
+     --x  centre of the glass      --y  top of the glass
+     --w  width of the glass       --h  height of the glass
+
+   To move someone to a different window, swap the class on their link in
+   index.html and on <body> in their room.
+   -------------------------------------------------------------------------- */
+
+.w-up-1   { --x: 33.95%; --y: 48.83%; --w: 2.25%; --h: 6.15%; }
+.w-up-2   { --x: 41.28%; --y: 48.73%; --w: 2.25%; --h: 6.15%; }
+.w-up-3   { --x: 48.96%; --y: 48.63%; --w: 2.35%; --h: 6.15%; }
+.w-up-4   { --x: 56.05%; --y: 48.54%; --w: 2.15%; --h: 6.15%; }
+.w-up-5   { --x: 62.99%; --y: 48.54%; --w: 2.40%; --h: 6.15%; }
+.w-down-1 { --x: 33.95%; --y: 61.23%; --w: 2.25%; --h: 7.30%; }
+.w-down-2 { --x: 41.24%; --y: 61.23%; --w: 2.25%; --h: 7.30%; }
+.w-down-3 { --x: 56.05%; --y: 61.13%; --w: 2.15%; --h: 7.40%; }
+.w-down-4 { --x: 62.99%; --y: 61.04%; --w: 2.40%; --h: 7.50%; }

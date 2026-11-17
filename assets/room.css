@@ -1,0 +1,168 @@
+/* ==========================================================================
+   A room — the shared starting point for every page under people/.
+
+   Each room is its own page and can grow in any direction: add a stylesheet
+   next to its index.html, replace everything inside <main>, or throw this
+   file out entirely. The only thing worth keeping is a way back to the house.
+   ========================================================================== */
+
+.room-page {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(1.5rem, 5vh, 3.5rem) 1.5rem clamp(1.25rem, 3vh, 2rem);
+  background: var(--paper);
+  text-align: center;
+}
+
+/* ---- you are here: the house, with one window lit ----------------------- */
+
+.you-are-here {
+  position: relative;
+  display: block;
+  width: min(34rem, 100%);
+  aspect-ratio: 2 / 1;
+  overflow: hidden;
+  container-type: inline-size;
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 52%, transparent 100%);
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 52%, transparent 100%);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* the whole painting, framed on the house */
+.you-are-here .plate {
+  position: absolute;
+  width: 165cqw;
+  height: 110cqw;
+  left: -32.2cqw;
+  top: -35.2cqw;
+}
+
+.you-are-here .plate::before,
+.you-are-here .plate::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--art) center / cover;
+}
+
+/* …printed like an old engraving… */
+.you-are-here .plate::before {
+  filter: grayscale(1) contrast(0.82) brightness(1.12) sepia(0.28);
+  opacity: 0.8;
+}
+
+/* …except for one window, left in colour. */
+.you-are-here .plate::after {
+  clip-path: inset(
+    var(--y)
+    calc(100% - var(--x) - var(--w) / 2)
+    calc(100% - var(--y) - var(--h))
+    calc(var(--x) - var(--w) / 2)
+  );
+}
+
+.you-are-here .lamp {
+  position: absolute;
+  left: calc(var(--x) - var(--w) / 2);
+  top: var(--y);
+  width: var(--w);
+  height: var(--h);
+  background: radial-gradient(ellipse at 50% 60%, #fff3cf, #ffd27a 60%, #f5a94a);
+  mix-blend-mode: screen;
+  box-shadow:
+    0 0 1.6cqw 0.5cqw rgba(255, 196, 96, 0.6),
+    0 0 5cqw 1.6cqw rgba(255, 186, 90, 0.28);
+  opacity: 0.85;
+}
+
+.you-are-here:focus-visible {
+  outline: 1px solid var(--ink);
+  outline-offset: 6px;
+}
+
+/* ---- whose room --------------------------------------------------------- */
+
+.doorplate {
+  margin: clamp(0.5rem, 3vh, 2rem) 0 0;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.doorplate .who {
+  display: block;
+  padding-left: 0.42em; /* centre the tracked capitals */
+  font-size: clamp(1.5rem, 5.4vw, 2.5rem);
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+}
+
+.doorplate .what {
+  display: block;
+  margin-top: -0.02em;
+  font-family: var(--hand);
+  font-size: clamp(3.4rem, 12vw, 5.6rem);
+  font-weight: 400;
+}
+
+/* ---- the room itself: everything in <main> belongs to its owner --------- */
+
+.room {
+  flex: 1;
+  width: min(38rem, 100%);
+  margin-top: clamp(1.5rem, 5vh, 3rem);
+  font-size: 1.3rem;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.room .unpacked {
+  margin: 0;
+  text-align: center;
+  font-style: normal;
+  opacity: 0.72;
+}
+
+/* ---- the way back ------------------------------------------------------- */
+
+.way-home {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  margin-top: 3rem;
+  color: inherit;
+  font-family: var(--hand);
+  font-size: 1.9rem;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.way-home::before,
+.way-home::after {
+  content: "";
+  width: clamp(2rem, 9vw, 4.5rem);
+  height: 1px;
+  background: currentColor;
+  opacity: 0.4;
+  transition: width 0.25s ease, opacity 0.25s ease;
+}
+
+.way-home:hover::before,
+.way-home:hover::after {
+  width: clamp(2.6rem, 11vw, 5.5rem);
+  opacity: 0.7;
+}
+
+.way-home:focus-visible {
+  outline: 1px solid var(--ink);
+  outline-offset: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .way-home::before,
+  .way-home::after {
+    transition: none;
+  }
+}

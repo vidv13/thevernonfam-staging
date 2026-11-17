@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Vernons · Rocky Hill Farm</title>
+<meta name="description" content="The Vernon family's house on the internet. Every window is somebody's room.">
+<meta name="theme-color" content="#afc0d3">
+<meta property="og:title" content="The Vernons · Rocky Hill Farm">
+<meta property="og:description" content="Every window is somebody's room.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thevernonfam.com/">
+<meta property="og:image" content="https://thevernonfam.com/assets/img/house-fall-social.jpg">
+<link rel="preload" href="assets/fonts/cormorant-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/base.css">
+<link rel="stylesheet" href="assets/home.css">
+<script src="assets/seasons.js"></script>
+</head>
+<body class="home">
+
+<main class="stage">
+
+  <!-- The painting. home.js hangs whichever season it is. -->
+  <div class="scene">
+    <noscript>
+      <img class="art is-on" src="assets/img/house-fall.webp" width="1536" height="1024"
+           alt="The Vernon house at Rocky Hill Farm in autumn: a white brick house with tall columns and dark shutters, every window lit, under orange trees at golden hour.">
+    </noscript>
+  </div>
+
+  <h1 class="wordmark">
+    <img src="assets/img/wordmark.webp" width="913" height="243" alt="The Vernons, Rocky Hill Farm">
+  </h1>
+
+  <div class="facade" aria-hidden="true"></div>
+
+  <!-- One window each. Positions live in assets/base.css (.w-up-1 … .w-down-4). -->
+  <nav class="windows" aria-label="The family — each window is someone's room">
+    <a class="window w-up-1"   style="--i:0" href="people/david/"><span class="name">David</span></a>
+    <a class="window w-up-2"   style="--i:1" href="people/marlo/"><span class="name">Marlo</span></a>
+    <a class="window w-up-3"   style="--i:2" href="people/marilla/"><span class="name">Marilla</span></a>
+    <a class="window w-up-4"   style="--i:3" href="people/margaret/"><span class="name">Margaret</span></a>
+    <a class="window w-up-5"   style="--i:4" href="people/louisa/"><span class="name">Louisa</span></a>
+    <a class="window w-down-1" style="--i:5" href="people/linus/"><span class="name">Linus</span></a>
+    <a class="window w-down-2" style="--i:6" href="people/imogen/"><span class="name">Imogen</span></a>
+    <a class="window w-down-3" style="--i:7" href="people/isla/"><span class="name">Isla</span></a>
+    <a class="window w-down-4" style="--i:8" href="people/carys/"><span class="name">Carys</span></a>
+  </nav>
+
+</main>
+
+<footer class="margin">
+  <button class="almanac" type="button" title="Turn the season" hidden></button>
+  <a class="side-door" href="recipes/">The Kitchen</a>
+</footer>
+
+<script src="assets/home.js"></script>
+</body>
+</html>
